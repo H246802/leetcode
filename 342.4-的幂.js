@@ -18,5 +18,8 @@ var isPowerOfFour = function(num) {
   }
   return num === 1
 };
+var isPowerOfFour = function(num) {
+  return /^10*$/.test(num.toString(4))
+};
 // @lc code=end
 
