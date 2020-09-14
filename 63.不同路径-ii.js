@@ -19,14 +19,16 @@ function matrix(n, m) {
 var uniquePathsWithObstacles = function(obstacleGrid) {
   let m = obstacleGrid.length
   let n = obstacleGrid[0].length
+  // 生成dp
   let dp = matrix(m,n)
-  dp[0][0] = 1
+  // 修改 obstacleGrid, 边缘 有 1,则一排都是 1
   for(let i = 0 ; i < m; i++){
     obstacleGrid[i][0] = obstacleGrid[i][0] || (i === 0 ? 0 : obstacleGrid[i - 1][0] )
   }
   for(let j = 0 ; j < n; j++){
     obstacleGrid[0][j] = obstacleGrid[0][j] || (j === 0 ? 0 :obstacleGrid[0][j-1] )
   }
+  // 当 obstacleGrid为 1 时,dp 不能走 ,为 0 
   dp.map((item,i)=>{
     item.map((it,j)=>{
       dp[i][j] =  obstacleGrid[i][j] ? 0 : 1
@@ -34,9 +36,8 @@ var uniquePathsWithObstacles = function(obstacleGrid) {
   })
   
   for(let i = 1 ; i < m ; i++){
-    // dp[i][0] = 1
     for(let j = 1 ; j < n ; j++){
-      dp[i][j] = !dp[i][j] ? 0 : ( (obstacleGrid[i-1][j] ? 0 : dp[i-1][j] ) + (obstacleGrid[i][j-1] ? 0 : dp[i][j-1]))
+      dp[i][j] = !dp[i][j] ? 0 : ( dp[i-1][j]  +  dp[i][j-1])
     }
   }
   return dp[m-1][n-1]
