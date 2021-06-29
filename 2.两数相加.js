@@ -26,44 +26,63 @@
  * @return {ListNode}
  */
 // 数组转链表
-function array2ListNode(arr){
-  var line = arr.map((i,j)=>{
-    // 生成 node 节点
-    return new ListNode(i)   
-  })
-  for(var i = 0;i < line.length - 1; i++){
-    line[i].next = line[i+1]
-  }
-  return line[0]
-}
+// function array2ListNode(arr){
+//   var line = arr.map((i,j)=>{
+//     // 生成 node 节点
+//     return new ListNode(i)
+//   })
+//   for(var i = 0;i < line.length - 1; i++){
+//     line[i].next = line[i+1]
+//   }
+//   return line[0]
+// }
 // 链表转数组
-function listNode2Array(list){
-  if(typeof list.val === "undefined") return
-  let arr = []
-  arr.push(list.val)
-  let next = list.next
-  while(next){
-    arr.push(next.val)
-    next = next.next
-  }
-  return arr
-}
+// function listNode2Array(list){
+//   if(typeof list.val === "undefined") return
+//   let arr = []
+//   arr.push(list.val)
+//   let next = list.next
+//   while(next){
+//     arr.push(next.val)
+//     next = next.next
+//   }
+//   return arr
+// }
 // function listNode2Array(ListNode,val){
 //   var arr = val && val.length ? val : []
 //   arr.push(ListNode.val)
 //   if (ListNode.next){
 //     return listNode2Array(ListNode.next,arr)
-//   } 
+//   }
 //   return arr
 // }
-var addTwoNumbers = function(l1, l2) {
-  console.log(l1,l2)
-  l1 = listNode2Array(l1)
-  l2 = listNode2Array(l2)
-  l1 = l1.reverse()
-  l2 = l2.reverse()
-  let res = BigInt(l1.join('')) + BigInt(l2.join('')) + ''
-  return array2ListNode(res.split('').reverse())
+// var addTwoNumbers = function(l1, l2) {
+//   console.log(l1,l2)
+//   l1 = listNode2Array(l1)
+//   l2 = listNode2Array(l2)
+//   l1 = l1.reverse()
+//   l2 = l2.reverse()
+//   let res = BigInt(l1.join('')) + BigInt(l2.join('')) + ''
+//   return array2ListNode(res.split('').reverse())
+// };
+
+/**
+ * 网络看到的简单做法
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ */
+var addTwoNumbers = function (l1, l2) {
+    var andOne = 0;
+    var sum = new ListNode("0");
+    var line = sum;
+    while (andOne || l1 || l2) {
+        let sumVal = ((l1 && l1.val) || 0) + ((l2 && l2.val) || 0) + andOne;
+        andOne = sumVal >= 10 ? 1 : 0;
+        sum.next = new ListNode(sumVal % 10);
+        sum = sum.next;
+        l1 && (l1 = l1.next);
+        l2 && (l2 = l2.next);
+    }
+    return line.next;
 };
 // @lc code=end
-
